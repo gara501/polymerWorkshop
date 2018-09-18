@@ -1,0 +1,1 @@
+import PlayerCmp from '../components/player-cmp.js'

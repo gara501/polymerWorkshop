@@ -1,0 +1,6 @@
+{
+  "name": "workshop",
+  "short_name": "workshop",
+  "start_url": "/",
+  "display": "standalone"
+}
