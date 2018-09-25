@@ -14,32 +14,29 @@ export class GemCmp extends PolymerElement {
 
       .gem {
         height: 50px;
-        margin: 25px;
         width: 50px;
       }
 
     </style>
-    <div class="gem" selected$="{{selected}}" id="[[id]]">
-      <img class="gem-element " src="images/puzzle/[[figure]]" alt="gem" />
-    </div>
+    <img class="gem" id="{{internal}}" on-click="selected" src="images/puzzle/[[figure]]" alt="gem" />
     `;
   }
 
   static get properties() {
     return {
-      selected: {
-        type: Number,
-        value: 0,
-        notify: true
-      },
       figure: {
         type: String
       },
-      id: {
+      internal: {
         type: Number
       },
       color: {
         type: String
+      },
+      erased: {
+        type: Boolean,
+        value: false,
+        notify: true
       }
     };
   }
@@ -47,27 +44,15 @@ export class GemCmp extends PolymerElement {
 
   ready(){
     super.ready();
-    let interval;
-    let selectedEl = this.selected;
-    this.addEventListener('click', (e) => {
-      console.log(e);
-      console.log(this.color);
-      selectedEl += 1;
-      console.log('selectedEl', selectedEl);
-      this.selected = selectedEl;
-      console.log('this selected', this.selected); 
-    });
-    
   }
 
-  updated() {
-
+  selected(e) {
+    this.classList.add('selected');
+    this.classList.add()
   }
- 
 
   constructor() {
     super();
-    this.test = 'sdsd';
   }
 }
 

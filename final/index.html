@@ -6,23 +6,33 @@
 
     <title>workshop</title>
     <meta name="description" content="workshop description">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    
+    
 
     <!-- See https://goo.gl/OOhYW5 -->
     <link rel="manifest" href="/manifest.json">
 
     <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-
     <script type="module" src="/src/workshop-app/level-cmp.js"></script>
-   
+    <script type="module" src="/src/workshop-app/intro-cmp.js"></script>
+    <style>
+    html, body {
+      background: #2d2d2d;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+    </style>
   </head>
   <body>
-    <div class="layer">
-      <level-cmp>        
-      </level-cmp>
-      
+    <div class="intro">
+      <intro-cmp visible="block"></intro-cmp>
     </div>
-    
-    
-    
+    <div class="layer">
+      <level-cmp visible="none">
+      </level-cmp>
+    </div>
+    <script src="https://code.createjs.com/1.0.0/soundjs.min.js"></script>
   </body>
 </html>
