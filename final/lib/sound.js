@@ -11,12 +11,17 @@ export default class Sound {
       {id:'win', src: 'win.wav'},
     ];
     this._loadSounds();
+    this.instance = {};
   }
 
   _loadSounds() {
     createjs.Sound.alternateExtensions = ['mp3', 'wav'];
     createjs.Sound.addEventListener("fileload", createjs.proxy(this.soundLoaded, this));
     createjs.Sound.registerSounds(this.sounds, this.audioPath);
+  }
+
+  isActive() {
+    return this.instance.playState;
   }
 
   soundLoaded(event) {
@@ -30,13 +35,13 @@ export default class Sound {
       if (item.id === soundName) {
         if (loop) {
           let props = new createjs.PlayPropsConfig().set({interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1})
-          let instance = createjs.Sound.play(soundName, props);
-          if (instance == null || instance.playState == createjs.Sound.PLAY_FAILED) {
+          this.instance = createjs.Sound.play(soundName, props);
+          if (this.instance == null || this.instance.playState == createjs.Sound.PLAY_FAILED) {
             return;
           }
         } else {
-          let instance = createjs.Sound.play(soundName);
-          if (instance == null || instance.playState == createjs.Sound.PLAY_FAILED) {
+          this.instance = createjs.Sound.play(soundName);
+          if (this.instance == null || this.instance.playState == createjs.Sound.PLAY_FAILED) {
             return;
           }
         }

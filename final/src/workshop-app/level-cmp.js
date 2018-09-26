@@ -1,6 +1,7 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 import { MutableData } from '@polymer/polymer/lib/mixins/mutable-data.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
 import {GemCmp} from './gem-cmp.js';
 import Sound from '../../lib/sound.js';
 
@@ -63,7 +64,11 @@ class LevelCmp extends MutableData(PolymerElement) {
         animation-name: selected;
         animation-iteration-count: infinite;
       }
-
+      
+      .wall gem-cmp.erased {
+        visibility: hidden;
+      }
+      
       @keyframes selected {
         from {
           transform: scale(1);
@@ -89,6 +94,9 @@ class LevelCmp extends MutableData(PolymerElement) {
     <div class="level" style$="display: [[visible]]">
       <div class="score">
         <h2>Score: {{score}}</h2>
+        <div class="volume">
+          <p>Sound [[soundlabel]]: <paper-icon-button on-click="mute" src="/images/mute.svg"></paper-icon-button></p>
+        </div>
       </div>
       <div class="wall">
         <template is="dom-repeat" items="{{items}}" mutable-data>
@@ -99,7 +107,7 @@ class LevelCmp extends MutableData(PolymerElement) {
               id="{{item.id}}" 
               internal="{{item.internal}}" 
               color="[[item.color]]" 
-              erased$="{{item.erased}}"></gem-cmp>
+              class$="{{item.erased}}"></gem-cmp>
         </template>
       </div>
     </div>
@@ -108,6 +116,10 @@ class LevelCmp extends MutableData(PolymerElement) {
 
   static get properties() {
     return {
+      soundlabel: {
+        type: String,
+        value: 'Off'
+      },
       score: {
         type: Number,
         value: 0,
@@ -127,8 +139,8 @@ class LevelCmp extends MutableData(PolymerElement) {
         type: String
       },
       erased: {
-        type: Boolean,
-        value: false
+        type: String,
+        value: 'active'
       },
       position: {
         type: Object,
@@ -204,6 +216,20 @@ class LevelCmp extends MutableData(PolymerElement) {
       this.last = e.model.item;
     }
     
+  }
+
+  mute() {
+    if (this.sound.isActive() === 'playFinished') {
+      // Enable Sound
+      this.sound.play('game');
+      this.soundlabel = 'Off';
+      this.shadowRoot.querySelector('paper-icon-button').setAttribute('src', '/images/mute.svg');
+    } else {
+      // Disable Sound
+      this.sound.stop();
+      this.soundlabel = 'On';
+      this.shadowRoot.querySelector('paper-icon-button').setAttribute('src', '/images/sound.svg');
+    }   
   }
 
   reorderArray(secondElement, firstElement) {
@@ -290,7 +316,7 @@ class LevelCmp extends MutableData(PolymerElement) {
       for (let itemLine of lineArray) {
         if (itemLine.id === item.id) {
           console.log('ITEM TO DROP', item);
-          item.erased = true;
+          item.erased = 'erased';
         }
       }
     }
@@ -419,7 +445,7 @@ class LevelCmp extends MutableData(PolymerElement) {
       newArray[i].position =  {x:row, y:column };
       newArray[i].internal = `item_${i+1}`;
       newArray[i].id = i+1;
-      newArray[i].erased = 'false';
+      newArray[i].erased = 'active';
     }
 
     return newArray;
