@@ -1,23 +1,29 @@
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {LitElement, html, property} from '@polymer/lit-element';
 import {HeaderNews} from './header-news.js';
+import {ContainerNews} from './container-news.js';
 
 /**
  * @customElement
  * @polymer
  */
-class NewappApp extends PolymerElement {
-  static get template() {
+class NewappApp extends LitElement {
+  render() {
     return html`
       <style>
         :host {
           display: block;
-          font-family: 'Oswald', sans-serif;
         }
-        
       </style>
       <header-news></header-news>
+      <container-news>
+      </container-news>
     `;
   }
+
+  constructor() {
+    super();
+  }
+
   static get properties() {
     return {
       newsapikey: {
@@ -28,4 +34,4 @@ class NewappApp extends PolymerElement {
   }
 }
 
-window.customElements.define('newapp-app', NewappApp);
+customElements.define('newapp-app', NewappApp);

@@ -26,7 +26,7 @@ export class HeaderNews extends LitElement {
       </style>
       <div class="header">
         <img src="images/news.svg" />
-        <h1>POLYMER NEWS APP</h1>
+        <h1>LIT-ELEMENT NEWS APP</h1>
       </div>
     `;
   }
